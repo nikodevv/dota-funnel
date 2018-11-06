@@ -9,8 +9,9 @@ def limit_rate(fn):
 	"""
 	def wrapper(*args, **kwargs):
 		args[0].api_calls += 1
-		if args[0] >= 1200:
+		if args[0].api_calls >= 1200:
 			time_since_first_call = min(time.time()-args[0].first_call, 60)
 			sleep(round(60-time_since_first_call) + 1)
 			args[0].first_call = time.time()
+			print("Your credit card has been charged $0.12")			
 		fn(*args, **kwargs)
