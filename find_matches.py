@@ -5,11 +5,18 @@ import os
 
 class MatchFinder:
 	def __init__(self, max_match_id="4000000000"):
+		self.MATCH_FINDER_URL = "https://api.opendota.com/api/publicMatches?"
+		self.settings(max_match_id)
+		
+	def settings(self, max_match_id):
+		self.DATA_DIR = os.path.abspath("data/")
 		# by default query results returned by ascending mmr
 		self.query_order = "mmr_ascending" 
 		self.max_match_id = max_match_id
-		self.MATCH_FINDER_URL = "https://api.opendota.com/api/publicMatches?"
-		self.DATA_DIR = os.path.abspath("data/")
+		# number of chars to incrementally indent inner json 
+		# scopes in output file
+		self.output_indent = 2
+
 
 	def load_data(self):
 		"""
@@ -28,8 +35,8 @@ class MatchFinder:
 		an automatically generated file ./data/file_prefix-timestamp.json
 		"""
 		f_name = self.__generate_filename(file_name, file_prefix)
-		with open(f_name, 'w') as f:
-			f.write(json.dumps(self.data))
+		with open(f_name, 'a') as f:
+			json.dump(self.data, f, indent=self.output_indent)
 		print("Successfully saved file %s." % f_name)
 
 	def __generate_filename(self, name, prefix):
