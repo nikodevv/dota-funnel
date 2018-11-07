@@ -15,7 +15,7 @@ class TestLimiterFull(unittest.TestCase):
 			pass
 
 	def setUp(self):
-		self.test_object = SimpleClass()
+		self.test_object = self.SimpleClass()
 
 	def test_limit_is_not_capped_for_when_not_necessary(self):
 		"""
