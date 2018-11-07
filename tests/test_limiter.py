@@ -36,9 +36,18 @@ class TestLimiterFull(unittest.TestCase):
 		self.assertLess(start-time.time(), 60)
 
 	def test_limit_decorator_function_adds_state_variables_to_object(self):
-		self.call_API()
+		self.test_object.call_API()
 		self.assertIsNotNone(self.test_object.api_calls)
-		self.assertIsNotNone(self.first_call)
-		
+		self.assertIsNotNone(self.test_object.first_call)
+
+	def test_tracks_credit_card_charges_correctly(self):
+		for i in range(0,100):
+			self.test_object.call_API()
+		self.assertEqual(float(0.01), round(self.test_object.total_cost, 3))
+
+		for i in range(0,50):
+			self.test_object.call_API()
+		self.assertEqual(float(0.015), round(self.test_object.total_cost, 3))
+
 if __name__ == "__main__":
 	unittest.main()
