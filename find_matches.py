@@ -44,7 +44,9 @@ class MatchFinder:
 			return os.path.join(self.DATA_DIR, "[%s]-[%s].json" % (
 				prefix , str(time.time())))
 		else:
-			return name + ".json"
+			return os.path.join(self.DATA_DIR, name + ".json")
+
+
 
 if __name__=="__main__":
 	find_matches = MatchFinder()
