@@ -1,3 +1,4 @@
+import os
 class GameManager(object):
 	"""
 	A class used for obtaining match data.
@@ -16,4 +17,13 @@ class GameManager(object):
 	"""
 	def __init__(self, keyword=None):
 		self.keyword = keyword
-		
+		self.data = None
+		# Top level directory where matchlists for datasets are 
+		# stored.
+		self.dataset_matchlist_DIR = os.path.abspath("../data/")
+		# List of DIR locations to every file containing 
+		# match ids associated with the [keyword] dataset
+		self.dataset_matchlist = None
+
+	def find_files(self):
+		pass	
