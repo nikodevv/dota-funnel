@@ -1,4 +1,5 @@
-import os
+from os.path import abspath
+from os import listdir
 class GameManager(object):
 	"""
 	A class used for obtaining match data.
@@ -20,10 +21,16 @@ class GameManager(object):
 		self.data = None
 		# Top level directory where matchlists for datasets are 
 		# stored.
-		self.dataset_matchlist_DIR = os.path.abspath("../data/")
+		self.dataset_matchlist_DIR = abspath("../data/")
 		# List of DIR locations to every file containing 
 		# match ids associated with the [keyword] dataset
-		self.dataset_matchlist = None
+		self.dataset_matchlist_files = []
 
 	def find_files(self):
-		pass	
+		"""
+		Stores the path of match list files to memory.
+		"""
+		for file in listdir(self.dataset_matchlist_DIR):
+			if self.keyword in file:
+				self.dataset_matchlist_files.append(file)
+		print(self.dataset_matchlist_files)
