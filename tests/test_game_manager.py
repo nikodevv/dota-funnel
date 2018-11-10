@@ -22,3 +22,14 @@ class TestGameManager(unittest.TestCase):
 		self.assertEqual(len(match_ids), 100)
 		self.assertEqual(match_ids[0], 4208474207)
 		self.assertEqual(match_ids[-1], 4208443917)
+
+	def test_process_matchlist(self):
+		def copy_list_function(*args, **kwargs):
+			if not (hasattr(args[0], "test_process_matchlist")):
+				args[0].test_process_matchlist = [args[1]]
+			else:
+				args[0].test_process_matchlist.append(args[1])
+		TEST_FILENAME = "[test_keyword]-[1541609180.436662].json"
+		self.gmanager.set_matchlist(TEST_FILENAME)
+		self.gmanager.process_matchlist(copy_list_function)
+		self.assertEqual(self.gmanager.matchlist, self.gmanager.test_process_matchlist)

@@ -1,6 +1,7 @@
 from os.path import abspath
 from os import listdir, sep
 import json
+
 class GameManager(object):
 	"""
 	A class used for obtaining match data.
@@ -43,4 +44,13 @@ class GameManager(object):
 		with open(path, "r") as f:
 			self.matchlist = [match["match_id"] for match in json.load(f)]
 
-	# def process_matchlist(self, )
+	def process_matchlist(self, fn):
+		"""
+		Downloads match data and processes it as dictated by 
+		fn parameter.
+		"""
+		for id in self.matchlist:
+			fn(self, self.get_matchlist_data(id))
+
+	def get_matchlist_data(self, match_id):
+		return match_id
