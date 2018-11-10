@@ -1,5 +1,5 @@
 import time
-def limit_rate(fn):
+def limit_rate_premium(fn):
 	"""
 	Limits number of times a function can be called per minute.
 	This is required for functions which make a call to Open Dota API
@@ -26,6 +26,31 @@ def limit_rate(fn):
 			args[0].api_calls = 0
 			args[0].first_call = time.time()
 			print("Your credit card has been charged $0.12. Your total cost is " 
-				+ str(args[0].total_cost))
+				+ str(round(args[0].total_cost),4))
+		fn(*args, **kwargs)
+	return wrapper
+
+def limit_rate_free(fn):
+	"""
+	Limits number of times a function can be called per minute.
+	This is required for functions which make a call to Open Dota API
+	(Free access keys have 60/minute access).
+	Note this is wrapper is insufficient if two modules are
+	simultaneously making calls to API.
+	"""
+	def wrapper(*args, **kwargs):
+		# Creates initial instance variables in object to which fn belongs
+		# so that total API calls made by that object can be 
+		# recorded.
+		if not ((hasattr(args[0], 'api_calls')) or (hasattr(args[0], 'first_call'))):
+			args[0].api_calls = 0
+			args[0].first_call = time.time()
+		args[0].api_calls += 1
+		# Stalls program when API minute-long limit is reached.
+		if args[0].api_calls >= 60:
+			time_since_first_call = min(time.time()-args[0].first_call, 60)
+			time.sleep(round(60-time_since_first_call) + 1)
+			args[0].api_calls = 0
+			args[0].first_call = time.time()
 		fn(*args, **kwargs)
 	return wrapper
