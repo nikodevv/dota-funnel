@@ -31,5 +31,10 @@ class TestGameManager(unittest.TestCase):
 				args[0].test_process_matchlist.append(args[1])
 		TEST_FILENAME = "[test_keyword]-[1541609180.436662].json"
 		self.gmanager.set_matchlist(TEST_FILENAME)
+		self.gmanager.get_match_data = (lambda x: x)
 		self.gmanager.process_matchlist(copy_list_function)
 		self.assertEqual(self.gmanager.matchlist, self.gmanager.test_process_matchlist)
+
+	def test_get_match_data_can_make_api_call(self):
+		match_id = 4208474207
+		self.assertEqual(self.gmanager.get_match_data(match_id)["match_id"], match_id)

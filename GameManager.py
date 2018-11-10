@@ -1,6 +1,7 @@
 from os.path import abspath
 from os import listdir, sep
 import json
+import requests
 
 class GameManager(object):
 	"""
@@ -50,7 +51,12 @@ class GameManager(object):
 		fn parameter.
 		"""
 		for id in self.matchlist:
-			fn(self, self.get_matchlist_data(id))
+			fn(self, self.get_match_data(id))
 
-	def get_matchlist_data(self, match_id):
-		return match_id
+	def get_match_data(self, match_id):
+		URL = "https://api.opendota.com/api/matches/" + str(match_id)
+		r = requests.get(URL)
+		# could just use r.json() but this
+		# prevents issues with higher order characters and Unix shell
+		rjson = json.loads(r.text.encode("ascii", 'replace').decode())
+		return rjson
