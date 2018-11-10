@@ -35,11 +35,12 @@ class GameManager(object):
 			if self.keyword in file:
 				self.dataset_matchlist_files.append(file)
 
-	def get_matchlist(self, filename):
+	def set_matchlist(self, filename):
 		"""
-		Returns list of matches from a matchlist file.
+		Stores list of matches from a matchlist file.
 		"""
 		path = abspath("%s%s%s" % (self.dataset_matchlist_DIR, sep, filename))
 		with open(path, "r") as f:
-			matchlist = [match["match_id"] for match in json.load(f)]
-		return matchlist
+			self.matchlist = [match["match_id"] for match in json.load(f)]
+
+	# def process_matchlist(self, )

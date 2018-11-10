@@ -17,7 +17,8 @@ class TestGameManager(unittest.TestCase):
 
 	def test_can_open_extract_matchlist_from_file(self):
 		TEST_FILENAME = "[test_keyword]-[1541609180.436662].json"
-		match_ids = self.gmanager.get_matchlist(TEST_FILENAME)
+		self.gmanager.set_matchlist(TEST_FILENAME)
+		match_ids = self.gmanager.matchlist
 		self.assertEqual(len(match_ids), 100)
 		self.assertEqual(match_ids[0], 4208474207)
 		self.assertEqual(match_ids[-1], 4208443917)
