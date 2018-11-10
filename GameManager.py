@@ -1,5 +1,6 @@
 from os.path import abspath
-from os import listdir
+from os import listdir, sep
+import json
 class GameManager(object):
 	"""
 	A class used for obtaining match data.
@@ -33,4 +34,12 @@ class GameManager(object):
 		for file in listdir(self.dataset_matchlist_DIR):
 			if self.keyword in file:
 				self.dataset_matchlist_files.append(file)
-		print(self.dataset_matchlist_files)
+
+	def get_matchlist(self, filename):
+		"""
+		Returns list of matches from a matchlist file.
+		"""
+		path = abspath("%s%s%s" % (self.dataset_matchlist_DIR, sep, filename))
+		with open(path, "r") as f:
+			matchlist = [match["match_id"] for match in json.load(f)]
+		return matchlist
